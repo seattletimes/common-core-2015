@@ -1,0 +1,20 @@
+{
+  "name": "common-core-2015",
+  "version": "0.0.1",
+  "homepage": "https://github.com/seattletimes/common-core-2015",
+  "authors": [
+    "The Seattle Times"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/js/lib",
+    "test",
+    "tests"
+  ]
+}
