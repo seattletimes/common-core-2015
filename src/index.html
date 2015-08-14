@@ -17,7 +17,7 @@
 
     <responsive-child>
 
-      <div ng-controller="commonCoreController" class="body"  ng-cloak>
+      <div ng-controller="commonCoreController" class="main-body"  ng-cloak>
         <div class="title">Look up test results in your neighborhood!</div>
         <div class="chatter">This is some chatter about the test results. Someone will write this and I will paste it in.</div>
 
@@ -37,11 +37,11 @@
             </thead>
             <tr ng-repeat="row in district.grades">
               <td class="grade">{{row.GradeTested}}</td>
-              <td class="math">{{row.MathPercentMetStandardExcludingNoScore}}
+              <td class="math">{{row.MathPercentMetStandardExcludingNoScore || "-"}}
               <td class="checkmark-math"><div class=checkbox" ng-if="row.MathPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-              <td class="reading">{{row.ReadingPercentMetStandardExcludingNoScore }}</td>
+              <td class="reading">{{row.ReadingPercentMetStandardExcludingNoScore || "-"}}</td>
               <td class="checkmark-reading"><div class=checkbox" ng-if="row.ReadingPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-              <td class="science">{{row.SciencePercentMetStandardExcludingNoScore}}</td>
+              <td class="science">{{row.SciencePercentMetStandardExcludingNoScore || "-"}}</td>
               <td class="checkmark-science"><div class=checkbox" ng-if="row.SciencePercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
             </tr>
           </table>
