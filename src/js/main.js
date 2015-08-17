@@ -5,24 +5,25 @@
 require("component-responsive-frame/child");
 require("angular/angular.min");
 
-var total = window.ccData;
 var app = angular.module("common-core-search", []);
 
-var scoreFields = "MathPercentMetStandardExcludingNoScore SciencePercentMetStandardExcludingNoScore WritingPercentMetStandardExcludingNoScore".split(" ");
+var scoreFields = "MathPercentMetStandardExcludingNoScore ELAPercentMetStandardExcludingNoScore".split(" ");
 
 var groupedResults = {};
+
 ccData.forEach(function(a) {
-  if(!groupedResults[a.district]) groupedResults[a.district] = {
-    county: a.county,
-    district: a.district
+  if(!groupedResults[a.District]) groupedResults[a.District] = {
+    county: a.County,
+    district: a.District
   };
-  var group = groupedResults[a.district];
+  var group = groupedResults[a.District];
   var hasResult = false;
   scoreFields.forEach(f => hasResult = hasResult || !!a[f]);
   if (!hasResult) return;
   if (!group.grades) group.grades = {};
   group.grades[a.GradeTested] = a;
 });
+
 var grouped = Object.keys(groupedResults).map(k => groupedResults[k]);
 
 app.controller("commonCoreController", ["$scope", function($scope) {
@@ -43,17 +44,17 @@ app.controller("commonCoreController", ["$scope", function($scope) {
 app.directive("typeSelect", function() {
   return {
     template: `
-<input ng-model="selection" placeholder="Enter district or county">
-<div class="completion">
-  <div class="options">
-    <a class="option" ng-repeat="option in filtered" ng-click="setValue(option)">
-      {{option.district}} ({{option.county}})
-    </a>
-  </div>
-  <div class="nothing" ng-if="filtered.length == 0">
-    <i class="fa fa-search"></i> No results found.
-  </div>
-</div>
+      <input ng-model="selection" placeholder="Enter district or county">
+      <div class="completion">
+        <div class="options">
+          <a class="option" ng-repeat="option in filtered" ng-click="setValue(option)">
+            {{option.district}} <span ng-if="option.county">({{option.county}})</span>
+          </a>
+        </div>
+        <div class="nothing" ng-if="filtered.length == 0">
+          <i class="fa fa-search"></i> No results found.
+        </div>
+      </div>
     `,
     restrict: "E",
     scope: {
@@ -104,7 +105,7 @@ app.directive("typeSelect", function() {
           // label = "Seattle Public Schools (King)";
           label = "Enter district or county"
         } else {
-          label = `${option.district} (${option.county})`;
+          label = option.county ? `${option.district} (${option.county})` : option.district;
         }
         input.value = label;
       });
@@ -113,7 +114,7 @@ app.directive("typeSelect", function() {
         setValue = true;
         console.log("set", option);
         if (!option.district) return;
-        input.value = `${option.district} (${option.county})`;
+        input.value = option.county ? `${option.district} (${option.county})` : option.district;
         scope.model = option;
       }
     }

@@ -7,66 +7,49 @@
 
 @import "seattletimes";
 
-@color1: #fbb157;
-@color2: #81a27f;
-@color3: #b57bb5;
-@color4: #F16567;
-@color5: #fbb157;
+@yellow: #fbb157;
+@green: #81a27f;
+@purple: #b57bb5;
+@red: #F16567;
 
-.body {
-  max-width:630px;
-  width: 100%;
+body {
+  max-width: 630px;
   font-family: @df-sans;
-  font-size: 16px;
+}
+
+.outermost {
+  border-top: 1px solid @df-border-gray;
+  border-bottom: 1px solid @df-border-gray;
+  padding: 20px 0;
+  margin: 20px 0;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 28px;
+  text-align: center;
+  padding-bottom: 5px;
+
   @media @mobile {
-    width: 94%;
-  }
-  .chatter {
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 20px;
-    @media @mobile {
-      margin-bottom: 10px;
-    }
-  }
-  .title{
-    text-align: center;
-    // margin: auto;
     font-size: 24px;
-    padding-bottom: 20px;
-    font-weight: bold;
   }
-  .search-container {
-    text-align: center;
-  }
-  .search {
-    @media @mobile {
-      font-size: 16px;
-    }
-  }
-  .source{
-    margin-top: 50px;
-    @media @mobile {
-      margin-top: 10px;
-    }
-    font-style: italic;
-    padding-top: 10px;
-  }
-  .credit{
-    text-transform: uppercase;
-    padding-bottom: 20px;
-  }
-  .source,
-  .credit {
-    text-align: left;
-    font-size: 11.5px;
-    color: #7e838b;
-  }
+}
+
+.chatter {
+  font-size: 15px;
+  padding-bottom: 25px;
+  font-family: @df-serif;
+}
+
+.search-container {
+  text-align: center;
+  font-size: 18px;
 }
 
 type-select {
   position: relative;
   margin-left: 10px;
+
   @media @mobile {
     margin-right: 10px;
     display: block;
@@ -74,7 +57,7 @@ type-select {
   }
 
   input {
-    background-color: lighten(@color1,22%);
+    background-color: lighten(@yellow, 22%);
     padding: 6px 0;
     border: none;
     border-bottom: 1px dotted black;
@@ -84,8 +67,7 @@ type-select {
     cursor: pointer;
     width: 350px;
     max-width: 100%;
-    font-style: oblique;
-    // margin-top: 20px;
+    font-style: italic;
   }
 
   .completion {
@@ -136,118 +118,98 @@ type-select {
   }
 }
 
+.no-results {
+  padding-top: 25px;
+  font-style: italic;
+
+  .alarm {
+    padding-right: 4px;
+    color: @df-middle-gray;
+  }
+}
+
 table {
   margin: auto;
-  margin-top: 40px;
-  border-collapse:collapse;
+  margin-top: 25px;
+  border-collapse: collapse;
   text-align: center;
-  @media @mobile {
-    font-size: 16px;
-    margin-top: 20px;
+  font-size: 16px;
+
+  .fa {
+    font-size: 24px !important;
+    margin-bottom: 7px;
   }
-  thead tr {
-    border: none;
-    text-transform: uppercase;
+
+  td {
+    padding: 5px 15px;
+  }
+
+  th {
     font-size: 14px;
-  }
-  border: none;
-  td.grade, td.math, td.reading, td.science {
-    padding: 5px 0 5px 15px;
+    padding: 10px 15px;
+    vertical-align: bottom;
+    text-transform: uppercase;
+
     @media @mobile {
-      padding: 0 10px;
+      padding: 0 5px;
+    }
+    &.grade {
+      background: @yellow;
+      color: white;
+      border-right: 2px solid black;
+    }
+    &.math {
+      background: @purple;
+      color: white;
+    }
+    &.reading {
+      background: @red;
+      color: white;
     }
   }
-  td.checkmark-math, td.checkmark-reading, td.checkmark-science {
+
+  td.checkmark-math, td.checkmark-reading {
     padding: 0 15px 0 15px;
     @media @mobile {
       padding-right: 8px;
       padding-left: 0px;
     }
   }
-  th{
-    padding: 10px 20px;
-    vertical-align: bottom;
-    @media @mobile {
-      padding: 0 5px;
-    }
-    &.grade {
-      background: @color1;
-      color: white;
-      border-right: 2px solid black;
-    }
-    &.math {
-      background: @color2;
-      color: white;
-    }
-    &.reading {
-      background: @color3;
-      color: white;
-    }
-    &.science {
-      background: @color4;
-      color: white;
-      border-left: 2px solid black;
-    }
-  }
 
 // .grade {
   tr:nth-child(odd) {
     td.grade {
-      background: lighten(@color1, 22%);
+      background: lighten(@yellow, 22%);
       border-right: 2px solid black;
       font-weight: bold;
     }
     td.math, td.checkmark-math {
-      background: lighten(@color2, 30%);
+      background: lighten(@purple, 30%);
     }
     td.reading, td.checkmark-reading {
-      background: lighten(@color3, 22%);
-    }
-    td.science {
-      background: lighten(@color4, 22%);
-      border-left: 2px solid black;
-    }
-    td.checkmark-science {
-      background: lighten(@color4, 22%);
+      background: lighten(@red, 22%);
     }
   }
   tr:nth-child(even) {
     td.grade {
-      background: lighten(@color1, 27%);
+      background: lighten(@yellow, 27%);
       border-right: 2px solid black;
       font-weight: bold;
     }
     td.math, td.checkmark-math{
-      background: lighten(@color2, 35%);
+      background: lighten(@purple, 35%);
     }
     td.reading, td.checkmark-reading {
-      background: lighten(@color3, 27%);
-    }
-    td.science {
-      background: lighten(@color4, 26%);
-      border-left: 2px solid black;
-    }
-    td.checkmark-science {
-      background: lighten(@color4, 26%);
+      background: lighten(@red, 27%);
     }
   }
 }
 
-.fa {
-  // &.fa1 {
-  //   color: @color2;
-  // }
-  // &.fa2 {
-  //   color: @color3;
-  // }
-  // &.fa3 {
-  //   color: @color4;
-  // }
-  &.fa1, &.fa2, &.fa3 {
-    font-size: 30px;
-    @media @mobile {
-      font-size: 20px;
-      text-align: center;
-    }
-  }
+.source {
+  padding-top: 25px;
+}
+
+.source, .credit {
+  font-size: 11.5px;
+  color: @df-middle-gray;
 }

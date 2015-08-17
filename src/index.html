@@ -13,56 +13,58 @@
       }
     </style>
   </head>
+
   <body ng-app="common-core-search">
 
     <responsive-child>
 
-      <div ng-controller="commonCoreController" class="body"  ng-cloak>
-        <div class="title">Look up test results in your neighborhood!</div>
-        <div class="chatter">This is some chatter about the test results. Someone will write this and I will paste it in.</div>
+      <div ng-controller="commonCoreController" class="outermost" ng-cloak>
+
+        <div class="title">
+          Washington State Report Card
+        </div>
+        <div class="chatter">
+          Washington students who took the Smarter Balanced tests are generally scoring higher than last year’s field tests indicated they would, according to preliminary results released today by the Office of Superintendent of Public Instruction (OSPI).
+        </div>
 
         <div class="search-container">
-          <span class="search">View report card for:</span>
+          View report card for:
           <type-select options="districts" model="district"></type-select>
           <div ng-if="district">
-          <div class="no-results" ng-if="!district.grades">
-            Sorry, there are no reported results for that district.
-          </div>
-          <table ng-if="district.grades">
-            <thead>
-              <th class="grade">Grade</th>
-              <th class="math" colspan="2"><div><i class="fa fa1 fa-calculator"></i></div>Math</th>
-              <th class="reading" colspan="2"><div><i class="fa fa2 fa-book"></i></div>ELA</th>
-              <th class="science" colspan="2"><div><i class="fa fa3 fa-flask"></i></div>Science</th>
-            </thead>
-            <tr ng-repeat="row in district.grades">
-              <td class="grade">{{row.GradeTested}}</td>
-              <td class="math">{{row.MathPercentMetStandardExcludingNoScore}}
-              <td class="checkmark-math"><div class=checkbox" ng-if="row.MathPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-              <td class="reading">{{row.ReadingPercentMetStandardExcludingNoScore }}</td>
-              <td class="checkmark-reading"><div class=checkbox" ng-if="row.ReadingPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-              <td class="science">{{row.SciencePercentMetStandardExcludingNoScore}}</td>
-              <td class="checkmark-science"><div class=checkbox" ng-if="row.SciencePercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-            </tr>
-          </table>
+            <div class="no-results" ng-if="!district.grades">
+              <i class="alarm fa fa-exclamation-triangle"></i> No reported results for this district.
+            </div>
+            <table ng-if="district.grades">
+              <thead>
+                <th class="grade">Grade</th>
+                <th class="math" colspan="2"><div><i class="fa fa-calculator"></i></div>Math</th>
+                <th class="reading" colspan="2"><div><i class="fa fa-book"></i></div>ELA</th>
+              </thead>
+              <tr ng-repeat="row in district.grades">
+                <td class="grade">{{row.GradeTested}}</td>
+                <td class="math">{{row.MathPercentMetStandardExcludingNoScore}}
+                <td class="checkmark-math"><div class=checkbox" ng-if="row.MathPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
+                <td class="reading">{{row.ELAPercentMetStandardExcludingNoScore }}</td>
+                <td class="checkmark-reading"><div class=checkbox" ng-if="row.ReadingPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
+              </tr>
+            </table>
 
           </div>
+        </div>
 
         <div class="bottom">
           <div class="source"><em>
-            Source: Insert here</em>
+            Source: Office of Superintendent of Public Instruction</em>
           </div>
-          <div class="credit">PEOPLE / THE SEATTLE TIMES</div>
+          <div class="credit">AUDREY CARLSEN AND EMMA O'NEILL / THE SEATTLE TIMES</div>
         </div>
 
       </div>
 
-
-
     </responsive-child>
 
     <script>
-      window.ccData = <%= JSON.stringify(csv.ScoresbyDistrict2014) %>;
+      var ccData = <%= JSON.stringify(csv.scores_by_district) %>;
     </script>
 
     <script src="app.js"></script>
