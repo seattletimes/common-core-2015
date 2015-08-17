@@ -7,7 +7,7 @@ require("angular/angular.min");
 
 var app = angular.module("common-core-search", []);
 
-var scoreFields = "MathPercentMetStandardExcludingNoScore ELAPercentMetStandardExcludingNoScore".split(" ");
+var scoreFields = "MathPercentMetStandardIncludingPrevPass ELAPercentMetStandardIncludingPrevPass".split(" ");
 
 var groupedResults = {};
 

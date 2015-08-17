@@ -21,37 +21,53 @@
       <div ng-controller="commonCoreController" class="outermost" ng-cloak>
 
         <div class="title">
-          Washington State Report Card
+          Washington Smarter Balanced results
         </div>
         <div class="chatter">
-          Washington students who took the Smarter Balanced tests are generally scoring higher than last year’s field tests indicated they would, according to preliminary results released today by the Office of Superintendent of Public Instruction (OSPI).
+          Washington students who took Smarter Balanced tests in math and English/language arts (ELA) last spring generally scored higher than officials had predicted, although the results varied district by district.
         </div>
 
         <div class="search-container">
-          View report card for:
+          <span class="view">View report card for:</span>
           <type-select options="districts" model="district"></type-select>
           <div ng-if="district">
             <div class="no-results" ng-if="!district.grades">
               <i class="alarm fa fa-exclamation-triangle"></i> No reported results for this district.
             </div>
+
             <table ng-if="district.grades">
-              <thead>
-                <th class="grade">Grade</th>
-                <th class="math" colspan="2"><div><i class="fa fa-calculator"></i></div>Math</th>
-                <th class="reading" colspan="2"><div><i class="fa fa-book"></i></div>ELA</th>
-              </thead>
+              <tr ng-if="district.grades" class="table-label"><td colspan="3">% of students proficient:</td></tr>
+              <tr class="header">
+                <td class="grade">Grade</td>
+                <td class="math"><div><i class="fa fa-calculator"></i></div>Math</td>
+                <td class="reading"><div><i class="fa fa-pencil"></i></div>ELA</td>
+              </tr>
               <tr ng-repeat="row in district.grades">
                 <td class="grade">{{row.GradeTested}}</td>
-                <td class="math">{{row.MathPercentMetStandardExcludingNoScore}}
-                <td class="checkmark-math"><div class=checkbox" ng-if="row.MathPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
-                <td class="reading">{{row.ELAPercentMetStandardExcludingNoScore }}</td>
-                <td class="checkmark-reading"><div class=checkbox" ng-if="row.ReadingPercentMetStandardExcludingNoScore > 50"><i class="fa fa-check"></i></div></td>
+                <td class="math">
+                  <span ng-if="row.MathPercentMetStandardIncludingPrevPass">
+                    {{row.MathPercentMetStandardIncludingPrevPass | number : 1}}%
+                  </span>
+                  <span ng-if="!row.MathPercentMetStandardIncludingPrevPass">
+                    -
+                  </span>
+                <td class="reading">
+                  <span ng-if="row.ELAPercentMetStandardIncludingPrevPass">
+                    {{row.ELAPercentMetStandardIncludingPrevPass | number : 1}}%
+                  </span>
+                  <span ng-if="!row.ELAPercentMetStandardIncludingPrevPass">
+                    -
+                  </span>
+                </td>
               </tr>
             </table>
           </div>
         </div>
 
         <div class="bottom">
+          <div class="note">
+            Note: Students who opted out of the test were given scores of zero, and are counted in these numbers as not passing.
+          </div>
           <div class="source"><em>
             Source: Office of Superintendent of Public Instruction</em>
           </div>

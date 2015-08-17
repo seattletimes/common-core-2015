@@ -46,11 +46,18 @@ body {
   font-size: 18px;
 }
 
+.view {
+  @media @mobile {
+
+  }
+}
+
 type-select {
   position: relative;
   margin-left: 10px;
 
   @media @mobile {
+    padding-top: 5px;
     margin-right: 10px;
     display: block;
     font-size: 16px;
@@ -79,7 +86,6 @@ type-select {
     background: white;
     box-shadow: 4px 4px 16px rgba(0, 0, 0, .3);
     padding: 4px;
-    // max-width: 100%;
     width: 350px;
     max-width: 100%;
     font-family: @df-sans;
@@ -130,10 +136,21 @@ type-select {
 
 table {
   margin: auto;
-  margin-top: 25px;
   border-collapse: collapse;
   text-align: center;
   font-size: 16px;
+  margin-top: 25px;
+  width: 150px;
+
+  .table-label {
+    font-size: 13px;
+    text-align: left;
+    font-style: italic;
+
+    td {
+      padding-left: 0;
+    }
+  }
 
   .fa {
     font-size: 24px !important;
@@ -144,72 +161,62 @@ table {
     padding: 5px 15px;
   }
 
-  th {
+// .grade {
+  tr:nth-child(even) {
+    td.grade {
+      background: lighten(@yellow, 22%);
+      border-right: 1px solid black;
+      font-weight: bold;
+    }
+    td.math {
+      background: lighten(@purple, 30%);
+    }
+    td.reading {
+      background: lighten(@red, 22%);
+    }
+  }
+  tr:nth-child(odd) {
+    td.grade {
+      background: lighten(@yellow, 27%);
+      border-right: 1px solid black;
+      font-weight: bold;
+    }
+    td.math {
+      background: lighten(@purple, 35%);
+    }
+    td.reading {
+      background: lighten(@red, 27%);
+    }
+  }
+
+  .header {
     font-size: 14px;
     padding: 10px 15px;
     vertical-align: bottom;
     text-transform: uppercase;
+    color: white;
 
-    @media @mobile {
-      padding: 0 5px;
+    .grade {
+      background: @yellow !important;
+      border-right: 1px solid black;
     }
-    &.grade {
-      background: @yellow;
-      color: white;
-      border-right: 2px solid black;
+    .math {
+      background: @purple !important;
     }
-    &.math {
-      background: @purple;
-      color: white;
-    }
-    &.reading {
-      background: @red;
-      color: white;
-    }
-  }
-
-  td.checkmark-math, td.checkmark-reading {
-    padding: 0 15px 0 15px;
-    @media @mobile {
-      padding-right: 8px;
-      padding-left: 0px;
-    }
-  }
-
-// .grade {
-  tr:nth-child(odd) {
-    td.grade {
-      background: lighten(@yellow, 22%);
-      border-right: 2px solid black;
-      font-weight: bold;
-    }
-    td.math, td.checkmark-math {
-      background: lighten(@purple, 30%);
-    }
-    td.reading, td.checkmark-reading {
-      background: lighten(@red, 22%);
-    }
-  }
-  tr:nth-child(even) {
-    td.grade {
-      background: lighten(@yellow, 27%);
-      border-right: 2px solid black;
-      font-weight: bold;
-    }
-    td.math, td.checkmark-math{
-      background: lighten(@purple, 35%);
-    }
-    td.reading, td.checkmark-reading {
-      background: lighten(@red, 27%);
+    .reading {
+      background: @red !important;
     }
   }
 }
 
-.source {
+.note {
   padding-top: 25px;
 }
+.source {
+  padding-top: 10px;
+}
 
-.source, .credit {
+.source, .credit, .note {
   font-size: 11.5px;
   color: @df-middle-gray;
 }
