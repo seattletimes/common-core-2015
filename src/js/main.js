@@ -11,24 +11,33 @@ var scoreFields = "MathPercentMetStandardIncludingPrevPass ELAPercentMetStandard
 
 var groupedResults = {};
 
-ccData.forEach(function(a) {
-  if(!groupedResults[a.District]) groupedResults[a.District] = {
-    county: a.County,
-    district: a.District
+districtData.forEach(function(row) {
+  if(!groupedResults[row.District]) groupedResults[row.District] = {
+    county: row.County,
+    district: row.District
   };
-  var group = groupedResults[a.District];
+  var group = groupedResults[row.District];
   var hasResult = false;
-  scoreFields.forEach(f => hasResult = hasResult || !!a[f]);
+  scoreFields.forEach(f => hasResult = hasResult || !!row[f]);
   if (!hasResult) return;
   if (!group.grades) group.grades = {};
-  group.grades[a.GradeTested] = a;
+  group.grades[row.GradeTested] = row;
 });
+
+schoolData.forEach(function(row) {
+  var district = groupedResults[row.District];
+  if (!district) return;
+  if (!district.schools) { district.schools = ["District Average"] }
+  if (district.schools.indexOf(row.School) == -1) {
+    district.schools.push(row.School);
+  };
+})
 
 var grouped = Object.keys(groupedResults).map(k => groupedResults[k]);
 
 app.controller("commonCoreController", ["$scope", function($scope) {
-  $scope.ccData = ccData;
-  var all = ccData;
+  $scope.districtData = districtData;
+  var all = districtData;
 
   $scope.districts = grouped;
   $scope.selected = all;

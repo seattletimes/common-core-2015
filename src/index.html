@@ -35,8 +35,15 @@
               <i class="alarm fa fa-exclamation-triangle"></i> No reported results for this district.
             </div>
 
+            <div class="showing">
+              <span class="label">Showing:</span>
+              <select name="select">
+                <option ng-repeat="school in district.schools">{{school}}</option> 
+              </select>
+            </div>
+
             <table ng-if="district.grades">
-              <tr ng-if="district.grades" class="table-label"><td colspan="3">% of students proficient:</td></tr>
+              <tr ng-if="district.grades" class="table-label"><td colspan="3">Percentage of students proficient:</td></tr>
               <tr class="header">
                 <td class="grade">Grade</td>
                 <td class="math"><div><i class="fa fa-calculator"></i></div>Math</td>
@@ -79,7 +86,8 @@
     </responsive-child>
 
     <script>
-      var ccData = <%= JSON.stringify(csv.scores_by_district) %>;
+      var districtData = <%= JSON.stringify(csv.scores_by_district) %>;
+      var schoolData = <%= JSON.stringify(csv.scores_by_school) %>;
     </script>
 
     <script src="app.js"></script>
