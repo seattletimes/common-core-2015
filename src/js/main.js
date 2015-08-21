@@ -24,14 +24,29 @@ districtData.forEach(function(row) {
   group.grades[row.GradeTested] = row;
 });
 
+var groupedSchoolResults = {};
+
 schoolData.forEach(function(row) {
-  var district = groupedResults[row.District];
-  if (!district) return;
-  if (!district.schools) { district.schools = ["District Average"] }
-  if (district.schools.indexOf(row.School) == -1) {
-    district.schools.push(row.School);
+  if(!groupedSchoolResults[row.School]) groupedSchoolResults[row.School] = {
+    school: row.School,
+    district: row.District
   };
-})
+  var group = groupedSchoolResults[row.School];
+  var hasResult = false;
+  scoreFields.forEach(f => hasResult = hasResult || !!row[f]);
+  if (!hasResult) return;
+  if (!group.grades) group.grades = {};
+  group.grades[row.GradeTested] = row;
+});
+
+var groupedSchools = Object.keys(groupedSchoolResults).map(k => groupedSchoolResults[k]);
+
+groupedSchools.forEach(function(school) {
+  var district = groupedResults[school.district];
+  if (!district) return;
+  if (!district.schools) district.schools = {};
+  district.schools[school.school] = school;
+});
 
 var grouped = Object.keys(groupedResults).map(k => groupedResults[k]);
 
@@ -41,11 +56,19 @@ app.controller("commonCoreController", ["$scope", function($scope) {
 
   $scope.districts = grouped;
   $scope.selected = all;
+  $scope.schoolName = "";
 
   //update selected from the district dropdown
-  $scope.$watch(function() {
+  $scope.$watch("district", function() {
+    $scope.schoolName = "";
+    $scope.school = $scope.district;
     var district = $scope.selected = all[$scope.district];
     var available = d => !d.exclude && district[`${d.data}_d`] && district[`${d.data}_d`] !== "N/A";
+  });
+
+  $scope.$watch("schoolName", function() {
+    if (!$scope.district) return
+    $scope.school = !$scope.schoolName ? $scope.district : $scope.district.schools[$scope.schoolName];
   });
 
 }]);

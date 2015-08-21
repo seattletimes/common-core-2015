@@ -30,26 +30,27 @@
         <div class="search-container">
           <span class="view">View report card for:</span>
           <type-select options="districts" model="district"></type-select>
-          <div ng-if="district">
-            <div class="no-results" ng-if="!district.grades">
-              <i class="alarm fa fa-exclamation-triangle"></i> No reported results for this district.
+          <div ng-if="school">
+            <div class="no-results" ng-if="!school.grades">
+              <i class="alarm fa fa-exclamation-triangle"></i> No reported results.
             </div>
 
-            <div class="showing">
+            <div class="showing" ng-class="{ visible: district.grades }">
               <span class="label">Showing:</span>
-              <select name="select">
-                <option ng-repeat="school in district.schools">{{school}}</option> 
+              <select name="select" ng-model="$parent.schoolName">
+                <option value="">District Average</option> 
+                <option value="{{s.school}}" ng-repeat="s in district.schools">{{s.school}}</option> 
               </select>
             </div>
 
-            <table ng-if="district.grades">
-              <tr ng-if="district.grades" class="table-label"><td colspan="3">Percentage of students proficient:</td></tr>
+            <table ng-if="school.grades">
+              <tr ng-if="school.grades" class="table-label"><td colspan="3">Percentage of students proficient:</td></tr>
               <tr class="header">
                 <td class="grade">Grade</td>
                 <td class="math"><div><i class="fa fa-calculator"></i></div>Math</td>
                 <td class="reading"><div><i class="fa fa-pencil"></i></div>ELA</td>
               </tr>
-              <tr ng-repeat="row in district.grades">
+              <tr ng-repeat="row in school.grades">
                 <td class="grade">{{row.GradeTested}}</td>
                 <td class="math">
                   <span ng-if="row.MathPercentMetStandardIncludingPrevPass">
