@@ -1,4 +1,65 @@
-<!doctype html>
+<%
+
+var scoreFields = "MathPercentMetStandardIncludingPrevPass ELAPercentMetStandardIncludingPrevPass".split(" ");
+
+var whitelist = scoreFields.concat(["School", "District", "County", "GradeTested"]);
+
+var clean = function(r) {
+  var out = {};
+  whitelist.forEach(function(key) {
+    out[key] = r[key];
+  });
+  return out;
+}
+
+var groupedResults = {};
+
+var districtData = csv.scores_by_district;
+var schoolData = csv.scores_by_school;
+
+districtData.forEach(function(row) {
+  if(!groupedResults[row.District]) groupedResults[row.District] = {
+    county: row.County,
+    district: row.District
+  };
+  var group = groupedResults[row.District];
+  var hasResult = false;
+  scoreFields.forEach(function(f) { hasResult = hasResult || !!row[f] });
+  if (!hasResult) return;
+  if (!group.grades) group.grades = {};
+  group.grades[row.GradeTested] = clean(row);
+});
+
+var groupedSchoolResults = {};
+
+schoolData.forEach(function(row) {
+  if(!groupedSchoolResults[row.School + row.District]) groupedSchoolResults[row.School + row.District] = {
+    school: row.School,
+    district: row.District
+  };
+  var group = groupedSchoolResults[row.School + row.District];
+  var hasResult = false;
+  scoreFields.forEach(function(f) { hasResult = hasResult || !!row[f] });
+  if (!hasResult) return;
+  if (!group.grades) group.grades = {};
+  group.grades[row.GradeTested] = clean(row);
+});
+
+var groupedSchools = Object.keys(groupedSchoolResults).map(function(k) { 
+  return groupedSchoolResults[k]
+});
+
+groupedSchools.forEach(function(school) {
+  if (school.school == "Pioneer Elementary School") {console.log(school)}
+  var district = groupedResults[school.district];
+  if (!district) return;
+  if (!district.schools) district.schools = {};
+  district.schools[school.school] = school;
+});
+
+var grouped = Object.keys(groupedResults).map(function(k) { return groupedResults[k] });
+
+%><!doctype html>
 <html>
   <head>
     <title><%= json.project.title %></title>
@@ -74,7 +135,7 @@
 
         <div class="bottom">
           <div class="note">
-            Note: Students who opted out of the test were given scores of zero, and are counted in these numbers as not passing.
+            Note: Students who opted out of the test were given scores of zero, and are counted in these numbers are not passing. In a number of high schools across the state, many 11th-graders opted out, which is the reason passing rates may be low. Results also aren’t available when only a small number of students took the test.
           </div>
           <div class="source"><em>
             Source: Office of Superintendent of Public Instruction</em>
@@ -87,8 +148,7 @@
     </responsive-child>
 
     <script>
-      var districtData = <%= JSON.stringify(csv.scores_by_district) %>;
-      var schoolData = <%= JSON.stringify(csv.scores_by_school) %>;
+      var districtData = <%= JSON.stringify(grouped) %>;
     </script>
 
     <script src="app.js"></script>

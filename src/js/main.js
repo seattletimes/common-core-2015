@@ -7,54 +7,11 @@ require("angular/angular.min");
 
 var app = angular.module("common-core-search", []);
 
-var scoreFields = "MathPercentMetStandardIncludingPrevPass ELAPercentMetStandardIncludingPrevPass".split(" ");
-
-var groupedResults = {};
-
-districtData.forEach(function(row) {
-  if(!groupedResults[row.District]) groupedResults[row.District] = {
-    county: row.County,
-    district: row.District
-  };
-  var group = groupedResults[row.District];
-  var hasResult = false;
-  scoreFields.forEach(f => hasResult = hasResult || !!row[f]);
-  if (!hasResult) return;
-  if (!group.grades) group.grades = {};
-  group.grades[row.GradeTested] = row;
-});
-
-var groupedSchoolResults = {};
-
-schoolData.forEach(function(row) {
-  if(!groupedSchoolResults[row.School]) groupedSchoolResults[row.School] = {
-    school: row.School,
-    district: row.District
-  };
-  var group = groupedSchoolResults[row.School];
-  var hasResult = false;
-  scoreFields.forEach(f => hasResult = hasResult || !!row[f]);
-  if (!hasResult) return;
-  if (!group.grades) group.grades = {};
-  group.grades[row.GradeTested] = row;
-});
-
-var groupedSchools = Object.keys(groupedSchoolResults).map(k => groupedSchoolResults[k]);
-
-groupedSchools.forEach(function(school) {
-  var district = groupedResults[school.district];
-  if (!district) return;
-  if (!district.schools) district.schools = {};
-  district.schools[school.school] = school;
-});
-
-var grouped = Object.keys(groupedResults).map(k => groupedResults[k]);
-
 app.controller("commonCoreController", ["$scope", function($scope) {
   $scope.districtData = districtData;
   var all = districtData;
 
-  $scope.districts = grouped;
+  $scope.districts = window.districtData;
   $scope.selected = all;
   $scope.schoolName = "";
 
