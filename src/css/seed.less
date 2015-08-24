@@ -178,7 +178,7 @@ table {
   }
 
   td {
-    padding: 5px 15px;
+    padding: 5px 20px;
   }
 
 // .grade {
@@ -190,9 +190,37 @@ table {
     }
     td.math {
       background: lighten(@purple, 30%);
+      border-right: 1px dashed @df-middle-gray;
+
+      @media @mobile {
+        border: none;
+      }
+
+      &.average {
+        border-right: 1px solid black;
+        font-size: 13px;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
     td.reading {
       background: lighten(@red, 22%);
+      border-right: 1px dashed @df-middle-gray;
+
+      @media @mobile {
+        border: none;
+      }
+
+      &.average {
+        font-size: 13px;
+        border: none;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
   }
   tr:nth-child(odd) {
@@ -203,9 +231,37 @@ table {
     }
     td.math {
       background: lighten(@purple, 35%);
+      border-right: 1px dashed @df-middle-gray;
+
+      @media @mobile {
+        border: none;
+      }
+
+      &.average {
+        border-right: 1px solid black;
+        font-size: 13px;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
     td.reading {
       background: lighten(@red, 27%);
+      border-right: 1px dashed @df-middle-gray;
+
+      @media @mobile {
+        border: none;
+      }
+
+      &.average {
+        font-size: 13px;
+        border: none;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
   }
 
@@ -216,15 +272,52 @@ table {
     text-transform: uppercase;
     color: white;
 
+    td {
+      padding-top: 10px;
+    }
+
     .grade {
       background: @yellow !important;
       border-right: 1px solid black;
     }
     .math {
       background: @purple !important;
+      
+      &.score {
+        border-right: 1px dashed @df-dark-gray;
+
+        @media @mobile {
+          border: none;
+        }
+      }
+
+      &.average {
+        border-right: 1px solid black;
+        font-size: 12px !important;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
     .reading {
       background: @red !important;
+
+      &.score {
+        border-right: 1px dashed @df-dark-gray;
+        
+        @media @mobile {
+          border: none;
+        }
+      }
+
+      &.average {
+        font-size: 12px !important;
+
+        @media @mobile {
+          display: none;
+        }
+      }
     }
   }
 }

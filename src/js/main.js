@@ -12,8 +12,28 @@ app.controller("commonCoreController", ["$scope", function($scope) {
   var all = districtData;
 
   $scope.districts = window.districtData;
+  console.log(districtData)
   $scope.selected = all;
   $scope.schoolName = "";
+
+  $scope.mathAverages = {
+    3: 56.6,
+    4: 54.0,
+    5: 48.0,
+    6: 45.5,
+    7: 48.0,
+    8: 46.1,
+    11: 13.6
+  };
+  $scope.elaAverages = {
+    3: 52.0,
+    4: 54.5,
+    5: 57.5,
+    6: 53.9,
+    7: 56.7,
+    8: 56.8,
+    11: 26.0
+  };
 
   //update selected from the district dropdown
   $scope.$watch("district", function() {

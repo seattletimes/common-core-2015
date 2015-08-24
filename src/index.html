@@ -28,6 +28,17 @@ districtData.forEach(function(row) {
   if (!hasResult) return;
   if (!group.grades) group.grades = {};
   group.grades[row.GradeTested] = clean(row);
+
+  // if (row.ELAPercentMetStandardIncludingPrevPass > (elaAverages[row.GradeTested] + 15)) {
+  //   group.grades[row.GradeTested].elaIcon = "up";
+  // } else if (row.ELAPercentMetStandardIncludingPrevPass < (elaAverages[row.GradeTested] - 15)) {
+  //   group.grades[row.GradeTested].elaIcon = "down";
+  // }
+  // if (row.MathPercentMetStandardIncludingPrevPass > (mathAverages[row.GradeTested] + 15)) {
+  //   group.grades[row.GradeTested].mathIcon = "up";
+  // } else if (row.MathPercentMetStandardIncludingPrevPass < (mathAverages[row.GradeTested] - 15)) {
+  //   group.grades[row.GradeTested].mathIcon = "down";
+  // }
 });
 
 var groupedSchoolResults = {};
@@ -50,7 +61,6 @@ var groupedSchools = Object.keys(groupedSchoolResults).map(function(k) {
 });
 
 groupedSchools.forEach(function(school) {
-  if (school.school == "Pioneer Elementary School") {console.log(school)}
   var district = groupedResults[school.district];
   if (!district) return;
   if (!district.schools) district.schools = {};
@@ -105,14 +115,21 @@ var grouped = Object.keys(groupedResults).map(function(k) { return groupedResult
             </div>
 
             <table ng-if="school.grades">
+
               <tr ng-if="school.grades" class="table-label"><td colspan="3">Percentage of students proficient:</td></tr>
+
               <tr class="header">
                 <td class="grade">Grade</td>
-                <td class="math"><div><i class="fa fa-calculator"></i></div>Math</td>
-                <td class="reading"><div><i class="fa fa-pencil"></i></div>ELA</td>
+                <td class="math score"><div><i class="fa fa-calculator"></i></div>Math</td>
+                <td class="math average"><div></div>State Avg.</td>
+                <td class="reading score"><div><i class="fa fa-pencil"></i></div>ELA</td>
+                <td class="reading average"><div></div>State Avg.</td>
               </tr>
+
               <tr ng-repeat="row in school.grades">
+
                 <td class="grade">{{row.GradeTested}}</td>
+
                 <td class="math">
                   <span ng-if="row.MathPercentMetStandardIncludingPrevPass">
                     {{row.MathPercentMetStandardIncludingPrevPass | number : 1}}%
@@ -120,6 +137,13 @@ var grouped = Object.keys(groupedResults).map(function(k) { return groupedResult
                   <span ng-if="!row.MathPercentMetStandardIncludingPrevPass">
                     -
                   </span>
+                  
+                </td>
+
+                <td class="math average">
+                  ({{mathAverages[row.GradeTested] | number : 1}}%)
+                </td>
+
                 <td class="reading">
                   <span ng-if="row.ELAPercentMetStandardIncludingPrevPass">
                     {{row.ELAPercentMetStandardIncludingPrevPass | number : 1}}%
@@ -127,15 +151,23 @@ var grouped = Object.keys(groupedResults).map(function(k) { return groupedResult
                   <span ng-if="!row.ELAPercentMetStandardIncludingPrevPass">
                     -
                   </span>
+                  
                 </td>
+
+                <td class="reading average">
+                  ({{elaAverages[row.GradeTested] | number : 1}}%)
+                </td>
+
               </tr>
+
             </table>
+
           </div>
         </div>
 
         <div class="bottom">
           <div class="note">
-            Note: Students who opted out of the test were given scores of zero, and are counted in these numbers are not passing. In a number of high schools across the state, many 11th-graders opted out, which is the reason passing rates may be low. Results also aren’t available when only a small number of students took the test.
+            Note: Students who opted out of the test were given scores of zero, and are counted in these numbers as not passing. In a number of high schools across the state, many 11th-graders opted out, which is the reason passing rates may be low. Results also aren’t available when only a small number of students took the test.
           </div>
           <div class="source"><em>
             Source: Office of Superintendent of Public Instruction</em>
